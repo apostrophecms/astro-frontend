@@ -1,0 +1,6 @@
+---
+const { widget } = Astro.props;
+const { content } = widget;
+---
+<!-- If I knew Astro I could probably avoid a needless div here -->
+<div set:html={ content }></div>
