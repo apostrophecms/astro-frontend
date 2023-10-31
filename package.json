@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "astro": "^3.3.1",
-    "@michelin-cxf/astro-apostrophe-integration": "apostrophecms/astro-integration#astro-core"
+    "@michelin-cxf/astro-apostrophe-integration": "apostrophecms/astro-integration"
   }
 }
