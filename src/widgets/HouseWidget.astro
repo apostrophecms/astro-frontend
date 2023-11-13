@@ -1,0 +1,6 @@
+---
+const { widget, options } = Astro.props;
+console.log(JSON.stringify(Astro.props, null, '  '));
+const style = `font-size: ${options.size}px`;
+---
+<h1 style={style}>🏠</h1>
