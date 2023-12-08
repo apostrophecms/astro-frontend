@@ -1,7 +1,7 @@
 {
   "name": "astro-demo",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "astro": "^3.3.1",
-    "@michelin-cxf/astro-apostrophe-integration": "apostrophecms/astro-integration"
+    "@apostrophecms/astro-integration": "apostrophecms/astro-integration"
   }
 }
