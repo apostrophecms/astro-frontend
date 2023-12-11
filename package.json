@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "astro": "^4.0.0",
-    "@apostrophecms/astro-integration": "apostrophecms/astro-integration"
+    "@apostrophecms/astro-integration": "apostrophecms/astro-integration#pro-5254"
   }
 }
