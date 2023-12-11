@@ -15,6 +15,9 @@ export default defineConfig({
         'referrer-policy',
         'cache-control',
         'host'
+      ],
+      proxyRoutes: [
+        '/api/v1/@apostrophecms/oembed/query'
       ]
     })
   ]

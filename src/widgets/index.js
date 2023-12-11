@@ -1,14 +1,13 @@
 import RichTextWidget from './RichTextWidget.astro';
 import ImageWidget from './ImageWidget.astro';
-import HouseWidget from './HouseWidget.astro';
+import VideoWidget from './VideoWidget.astro';
 import TwoColumnWidget from './TwoColumnWidget.astro';
 
 const widgetTypes = {
   '@apostrophecms/rich-text': RichTextWidget,
   '@apostrophecms/image': ImageWidget,
-  'house': HouseWidget,
+  '@apostrophecms/video': VideoWidget,
   'two-column': TwoColumnWidget
 };
 
 export default widgetTypes;
-

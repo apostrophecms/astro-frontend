@@ -1,6 +1,9 @@
 ---
 const { widget } = Astro.props;
-const src = widget?._image[0]?.attachment?._urls['full'];
+const placeholder = widget?.aposPlaceholder;
+const src = placeholder ?
+  '/images/image-widget-placeholder.jpg' :
+  widget?._image[0]?.attachment?._urls['full'];
 ---
 <style>
   .img-widget {
