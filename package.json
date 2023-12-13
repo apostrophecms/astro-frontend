@@ -10,7 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@apostrophecms/astro-integration": "apostrophecms/astro-integration#pro-5272",
     "astro": "^4.0.0",
-    "@apostrophecms/astro-integration": "apostrophecms/astro-integration#pro-5254"
+    "dayjs": "^1.11.10"
   }
 }
