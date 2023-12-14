@@ -6,11 +6,13 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "serve": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@apostrophecms/astro-integration": "apostrophecms/astro-integration#pro-5272",
+    "@astrojs/node": "^7.0.1",
     "astro": "^4.0.0",
     "dayjs": "^1.11.10"
   }

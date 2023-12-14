@@ -5,7 +5,11 @@ import AposTemplate from '@apostrophecms/astro-integration/components/AposTempla
 
 const aposData = await aposPageFetch(Astro.request);
 const bodyClass = `myclass`;
---- 
+
+if (aposData.redirect) {
+  return Astro.redirect(aposData.url, aposData.status);
+}
+---
 <AposLayout title={aposData.page?.title} {aposData} {bodyClass}>
     <Fragment slot="standardHead">
       <meta name="description" content={aposData.page?.seoDescription} />

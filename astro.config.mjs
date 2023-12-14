@@ -1,8 +1,12 @@
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
 import apostrophe from '@apostrophecms/astro-integration';
 
 export default defineConfig({
   output: 'server',
+  adapter: node({
+    mode: 'standalone'
+  }),
   integrations: [
     apostrophe({
       aposHost: 'http://localhost:3000',
@@ -15,9 +19,6 @@ export default defineConfig({
         'referrer-policy',
         'cache-control',
         'host'
-      ],
-      proxyRoutes: [
-        '/api/v1/@apostrophecms/oembed/query'
       ]
     })
   ]
