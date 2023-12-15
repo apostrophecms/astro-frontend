@@ -1,7 +1,7 @@
 ---
-import aposPageFetch from '@apostrophecms/astro-integration/lib/aposPageFetch';
-import AposLayout from '@apostrophecms/astro-integration/components/layouts/AposLayout.astro';
-import AposTemplate from '@apostrophecms/astro-integration/components/AposTemplate.astro';
+import aposPageFetch from '@apostrophecms/apostrophe-astro/lib/aposPageFetch';
+import AposLayout from '@apostrophecms/apostrophe-astro/components/layouts/AposLayout.astro';
+import AposTemplate from '@apostrophecms/apostrophe-astro/components/AposTemplate.astro';
 
 const aposData = await aposPageFetch(Astro.request);
 const bodyClass = `myclass`;
