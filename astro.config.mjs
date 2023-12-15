@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
-import apostrophe from '@apostrophecms/astro-integration';
+import apostrophe from '@apostrophecms/apostrophe-astro';
 
 export default defineConfig({
   output: 'server',
