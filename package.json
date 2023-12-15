@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@apostrophecms/apostrophe-astro": "apostrophecms/apostrophe-astro",
+    "@apostrophecms/apostrophe-astro": "apostrophecms/apostrophe-astro#documentation",
     "@astrojs/node": "^7.0.1",
     "astro": "^4.0.0",
     "dayjs": "^1.11.10"
