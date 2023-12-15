@@ -9,6 +9,9 @@ const bodyClass = `myclass`;
 if (aposData.redirect) {
   return Astro.redirect(aposData.url, aposData.status);
 }
+if (aposData.notFound) {
+  Astro.response.status = 404;
+}
 ---
 <AposLayout title={aposData.page?.title} {aposData} {bodyClass}>
     <Fragment slot="standardHead">
