@@ -3,11 +3,11 @@ import ImageWidget from './ImageWidget.astro';
 import VideoWidget from './VideoWidget.astro';
 import TwoColumnWidget from './TwoColumnWidget.astro';
 
-const widgetTypes = {
+const widgetComponents = {
   '@apostrophecms/rich-text': RichTextWidget,
   '@apostrophecms/image': ImageWidget,
   '@apostrophecms/video': VideoWidget,
   'two-column': TwoColumnWidget
 };
 
-export default widgetTypes;
+export default widgetComponents;
