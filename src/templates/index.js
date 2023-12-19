@@ -4,7 +4,7 @@ import BlogIndexPage from './BlogIndexPage.astro';
 import BlogShowPage from './BlogShowPage.astro';
 import NotFoundPage from './NotFoundPage.astro';
 
-const docTypes = {
+const templateComponents = {
   '@apostrophecms/home-page': HomePage,
   'default-page': DefaultPage,
   '@apostrophecms/blog-page:index': BlogIndexPage,
@@ -12,4 +12,4 @@ const docTypes = {
   '@apostrophecms/page:notFound': NotFoundPage
 };
 
-export default docTypes;
+export default templateComponents;

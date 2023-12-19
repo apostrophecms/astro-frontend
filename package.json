@@ -14,6 +14,7 @@
     "@apostrophecms/apostrophe-astro": "apostrophecms/apostrophe-astro#documentation",
     "@astrojs/node": "^7.0.1",
     "astro": "^4.0.0",
+    "vite": "^5.0.7",
     "dayjs": "^1.11.10"
   }
 }
