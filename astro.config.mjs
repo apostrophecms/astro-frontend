@@ -19,7 +19,8 @@ export default defineConfig({
         'referrer-policy',
         'cache-control',
         'host'
-      ]
+      ],
+      viewTransitionWorkaround: true
     })
   ],
   vite: {
