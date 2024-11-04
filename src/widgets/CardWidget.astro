@@ -1,0 +1,42 @@
+---
+import MaterializeCard from '../components/MaterializeCards.astro';
+const { widget } = Astro.props;
+const {
+  cardType = 'basic',
+  cardTitle,
+  titleSize,
+  titleColor = 'black',
+  titleModifier = '',
+  content,
+  backgroundColor = 'white',
+  backgroundModifier = '',
+  textColor = 'black',
+  textModifier = '',
+  links,
+  image,
+  overlayColor = 'black',
+  overlayOpacity = '0.5',
+  size = '',
+} = widget;
+
+// Safe links processing
+const processedLinks = links?.length ? links : undefined;
+---
+
+<MaterializeCard
+  type={cardType}
+  title={cardTitle},
+  titleSize={titleSize}
+  titleColor={titleColor}
+  titleModifier={titleModifier}
+  content={content}
+  textColor={textColor}
+  textModifier={textModifier}
+  backgroundColor={backgroundColor}
+  backgroundModifier={backgroundModifier}
+  links={processedLinks}
+  image={image}
+  overlayColor={overlayColor}
+  overlayOpacity={overlayOpacity}
+  size={size}
+/>

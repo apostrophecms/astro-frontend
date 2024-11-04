@@ -1,0 +1,57 @@
+---
+// Import the widget data passed from ApostropheCMS
+const { widget, options } = Astro.props;
+
+import AposArea from '@apostrophecms/apostrophe-astro/components/AposArea.astro';
+---
+
+<div class="accordion-widget accordion-container">
+
+  {widget.items.map((item) => (
+    <div class="ac" key={item.header}>
+      <h2 class="ac-header">
+        <button type="button" class="ac-trigger">{item.header}</button>
+      </h2>
+      <div class="ac-panel">
+        {/* Render area content from ApostropheCMS */}
+        {item.content && (
+          <AposArea area={item.content} /></div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  /**
+ * For Demo Purposes, this Accordion is powered by accordion-js
+ * You could swap this out another library or your own implementation
+ */
+ apos.util.onReady(function() {
+  const loadAccordion = function() {
+    import('accordion-js').then(({ default: Accordion }) => {
+      const accordions = Array.from(document.querySelectorAll('.accordion-container'));
+
+      if (accordions.length) {
+        const options = {
+          duration: 100
+        };
+        new Accordion(accordions, options);
+        accordions.forEach(el => {
+          el.style.opacity = '1';
+        });
+      } else {
+        console.error('No accordion containers found');
+      }
+    }).catch(error => {
+      console.error('Error loading accordion-js:', error);
+    });
+  };
+
+  // Initial load
+  loadAccordion();
+
+  // Re-run when switching between preview and edit modes
+  apos.bus.$on('content-changed', loadAccordion);
+});
+</script>

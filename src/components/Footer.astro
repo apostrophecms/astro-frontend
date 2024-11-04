@@ -1,0 +1,52 @@
+---
+const { aposData } = Astro.props;
+const currentYear = new Date().getFullYear();
+const footerNav = aposData.home?._children || [];
+---
+
+<footer class="page-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">{aposData.global?.title || 'Site Title'}</h5>
+        <p class="grey-text text-lighten-4">
+          {aposData.global?.footerDescription || 'Your company description here.'}
+        </p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">Links</h5>
+        <ul>
+          {footerNav.map((item) => (
+            <li>
+              <a class="grey-text text-lighten-3" href={item._url}>
+                {item.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      © {currentYear} {aposData.global?.title || 'Your Company'}
+      {aposData.global?.footerLinks && (
+        <div class="grey-text text-lighten-4 right">
+          {aposData.global?.footerLinks}
+        </div>
+      )}
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  .page-footer {
+    // Add any custom footer styles here
+    margin-top: 20px;
+    
+    .footer-copyright {
+      // Customize the copyright section if needed
+      padding: 20px 0;
+    }
+  }
+</style>

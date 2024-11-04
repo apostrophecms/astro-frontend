@@ -1,0 +1,61 @@
+---
+const { widget } = Astro.props;
+const widgetId = widget._id;
+const test= 'test';
+import AposArea from '@apostrophecms/apostrophe-astro/components/AposArea.astro';
+
+const areaStyles = `
+  <style>
+    ${widget.contentAreas.map(area => `
+      .custom-layout-widget-${widgetId} .area-${area.name} {
+        grid-column: ${area.colStart} / span ${area.colSpan};
+        grid-row: ${area.rowStart} / span ${area.rowSpan};
+      }
+    `).join('\n')}
+  </style>
+`;
+---
+<div 
+  id={`custom-layout-widget-${widgetId}`} 
+  class={`custom-layout-widget custom-layout-widget-${widgetId} ${widget.overrideClass}`}
+  data-widget-id={widgetId}
+  data-area-styles={areaStyles}
+>
+  {widget.contentAreas.map((area) => (
+    <div class={`custom-layout-area area-${area.name}`}>
+      <AposArea area={area.content} />
+    </div>
+  ))}
+  <Fragment set:html={areaStyles} />
+</div>
+
+<style define:vars={{
+  columns: widget.columns,
+  rows: widget.rows,
+  gap: widget.gap,
+  padding: widget.padding,
+  margin: widget.margin
+}}>
+  .custom-layout-widget {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-rows: repeat(var(--rows), auto);
+    gap: var(--gap);
+    padding: var(--padding);
+    margin: var(--margin);
+    width: 100%;
+    height: auto;
+    place-items: center;
+  }
+
+
+  @media (max-width: 768px) {
+    .custom-layout-widget {
+      grid-template-columns: 1fr;
+    }
+
+    .custom-layout-widget [class^="area-"] {
+      grid-column: 1;
+    }
+  }
+</style>

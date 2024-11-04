@@ -12,12 +12,24 @@ if (aposData.redirect) {
 if (aposData.notFound) {
   Astro.response.status = 404;
 }
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 ---
+
 <AposLayout title={aposData.page?.title} {aposData} {bodyClass}>
     <Fragment slot="standardHead">
       <meta name="description" content={aposData.page?.seoDescription} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charset="UTF-8" />
+      
     </Fragment>
+
+    <Header slot="beforeMain" {aposData} />
+
     <AposTemplate {aposData} slot="main"/>
+    <Footer {aposData} slot="afterMain" />
 </AposLayout>
+<style is:global>
+  @import '../styles/main.scss';
+</style>

@@ -1,0 +1,184 @@
+---
+const { widget } = Astro.props;
+import AposArea from '@apostrophecms/apostrophe-astro/components/AposArea.astro';
+
+const hasBackgroundImage = widget.background === 'image';
+const hasBackgroundVideo = widget.background === 'video';
+const overlayEnabled = widget.overlay?.enabled;
+const overlayOpacity = widget.overlay?.opacity || '50';
+const overlayColor = widget.overlay?.color || '#000000';
+const heroHeight = widget.height || 'medium';
+const contentAlignment = widget.contentAlignment || 'center';
+
+const overlayClass = overlayEnabled ? `overlay-opacity-${overlayOpacity}` : '';
+
+const heightClass = {
+  small: 'hero-small',
+  medium: 'hero-medium',
+  large: 'hero-large',
+  full: 'hero-full'
+}[heroHeight];
+
+// Get background image URL if it exists
+const backgroundImageUrl = widget?._backgroundImage?.[0]?.attachment?._urls?.['full'];
+const backgroundImageAlt = widget?._backgroundImage?.[0]?.attachment?._alt || '';
+const imagePosition = widget?.imagePosition || 'center';
+const ctaAlignment = widget?.ctaAlignment || 'center';
+---
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Height options */
+  .hero-small { height: 400px; }
+  .hero-medium { height: 600px; }
+  .hero-large { height: 800px; }
+  .hero-full { height: 100vh; }
+
+  /* Overlay styling */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .overlay-opacity-25 { opacity: 0.25; }
+  .overlay-opacity-50 { opacity: 0.50; }
+  .overlay-opacity-75 { opacity: 0.75; }
+
+  .background-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .image-top {
+    object-position: center top;
+  }
+
+  .image-center {
+    object-position: center center;
+  }
+
+  .image-bottom {
+    object-position: center bottom;
+  }
+
+  .background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 4rem 2rem;
+  }
+
+  .content {
+    color: white;
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .cta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+  }
+
+  .cta-left { justify-content: flex-start; }
+  .cta-center { justify-content: center; }
+  .cta-right { justify-content: flex-end; }
+
+  .cta :global(.apos-area) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    width: auto;
+  }
+
+  .cta :global(.apos-area-widget-wrapper) {
+    margin: 0;
+    padding: 0;
+    flex: 0 0 auto;
+  }
+
+  /* Prevent wrapping of button widgets */
+  .cta :global(.apos-area-widget) {
+    width: auto;
+  }
+</style>
+
+<section class={`hero ${heightClass}`}>
+  {overlayEnabled && (
+    <div
+      class={`overlay ${overlayClass}`}
+      style={`background-color: ${overlayColor};`}
+    >
+    </div>
+  )}
+
+  {hasBackgroundImage && backgroundImageUrl && (
+    <div class="background-wrapper">
+      <img
+        src={backgroundImageUrl}
+        alt={backgroundImageAlt}
+        class={`background-image image-${imagePosition}`}
+      />
+    </div>
+  )}
+
+  {hasBackgroundVideo && (
+    <div class="background-wrapper">
+      <AposArea area={widget.backgroundVideo} class="background-video" />
+    </div>
+  )}
+
+  <div class="content-wrapper">
+    <div class="content" style={`text-align: ${contentAlignment};`}>
+      {widget.mainContent?.pretitle && (
+        <h5 style={`color: ${widget.mainContent.pretitleColor};`}>
+          {widget.mainContent.pretitle}
+        </h5>
+      )}
+      <h1 style={`color: ${widget.mainContent.titleColor};`}>
+        {widget.mainContent.title}
+      </h1>
+      {widget.mainContent?.subtitle && (
+        <p style={`color: ${widget.mainContent.subtitleColor};`}>
+          {widget.mainContent.subtitle}
+        </p>
+      )}
+
+      {widget.callToAction && (
+        <div class={`cta cta-${ctaAlignment}`}>
+          <AposArea area={widget.callToAction} />
+        </div>
+      )}
+    </div>
+  </div>
+</section>

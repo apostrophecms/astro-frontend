@@ -1,0 +1,61 @@
+---
+const { widget } = Astro.props;
+const path =
+  widget.linkType === 'page'
+    ? widget._linkPage?._url
+    : widget.linkType === 'file'
+      ? widget._linkFile?._url
+      : widget.linkUrl;
+
+const style = widget.linkStyle === 'button' ? widget.buttonType : '';
+const size = widget.buttonSize || '';
+const variant = widget.buttonColor
+  ? widget.buttonColor +
+    (widget.buttonModifier ? ` ${widget.buttonModifier}` : '')
+  : '';
+const linkTarget = widget.linkTarget?.includes('_blank') ? '_blank' : '';
+
+const attributes = {
+  target: linkTarget,
+  class: `link ${style} ${size} ${variant} ${widget.wavesEffect ? 'waves-effect' : ''} ${widget.wavesColor ? widget.wavesColor : ''}`,
+  href: path,
+};
+
+// Only add the disabled attribute if buttonDisabled is true
+if (widget.buttonDisabled) {
+  attributes.disabled = true;
+}
+
+const hasIcon = widget.icon && widget.icon !== '';
+const iconPositionClass =
+  hasIcon && widget.iconPosition === 'right' ? 'right' : 'left';
+
+// Define alignment class based on the new buttonAlignment field
+const alignmentClass = `button-align-${widget.buttonAlignment || 'left'}`;
+---
+
+<style>
+  .link-widget {
+    display: flex;
+  }
+  .button-align-left {
+    justify-content: flex-start;
+  }
+  .button-align-center {
+    justify-content: center;
+  }
+  .button-align-right {
+    justify-content: flex-end;
+  }
+</style>
+
+<div class={`link-widget ${alignmentClass}`}>
+  <a {...attributes}>
+    {
+      hasIcon && (
+        <i class={`material-icons ${iconPositionClass}`}>{widget.icon}</i>
+      )
+    }
+    {widget.linkText}
+  </a>
+</div>

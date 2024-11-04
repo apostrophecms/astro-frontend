@@ -1,0 +1,93 @@
+---
+const { widget } = Astro.props;
+import AposArea from '@apostrophecms/apostrophe-astro/components/AposArea.astro';
+
+const {
+  columnGutter = '16',
+  verticalSpacing = '24'
+} = widget.rowSettings || {};
+
+// Convert to numbers for calculations
+const gutterPx = parseInt(columnGutter);
+const spacingPx = parseInt(verticalSpacing);
+console.log('gutterPx', gutterPx);
+console.log('spacingPx', spacingPx);
+console.log('widget', widget.items);
+---
+
+<div class="row-wrapper" style={`margin-bottom: ${spacingPx}px;`}>
+  <div class="row" style={`margin-left: -${gutterPx/2}px; margin-right: -${gutterPx/2}px;`}>
+    {widget.items?.map((item) => (
+      <div 
+        class={`col ${item.columnSize}`} 
+        style={`padding-left: ${gutterPx/2}px; padding-right: ${gutterPx/2}px;`}
+      >
+        <div class={`content-wrapper valign-${item.verticalAlignment || 'start'}`}>
+          <AposArea area={item.content} />
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .row-wrapper:last-child {
+    margin-bottom: 0;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+
+  /* Reset default Materialize margins and ensure columns fill height */
+  .row .col {
+    margin-bottom: 0;
+    display: flex;
+  }
+
+  /* Content wrapper takes full width/height and handles alignment */
+  .content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+  }
+
+  /* Vertical alignment classes */
+  .valign-start {
+    justify-content: flex-start;
+  }
+
+  .valign-center {
+    justify-content: center;
+  }
+
+  .valign-end {
+    justify-content: flex-end;
+  }
+
+  /* Ensure content inside wrapper is centered */
+  .content-wrapper :global(> *) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Ensure rich text content stays properly aligned */
+  .content-wrapper :global(.rich-text) {
+    display: block;
+    text-align: center;
+  }
+
+  /* Handle image centering */
+  .content-wrapper :global(img) {
+    margin: 0 auto;
+  }
+
+  /* Ensure cards stay centered */
+  .content-wrapper :global(.card) {
+    margin: 0 auto;
+  }
+</style>

@@ -1,0 +1,291 @@
+---
+import AposArea from '@apostrophecms/apostrophe-astro/components/AposArea.astro';
+
+interface CardProps {
+  type: 'basic' | 'image' | 'horizontal' | 'reveal' | 'image-overlay';
+  title: string;
+  titleSize?: string;
+  titleColor: string;
+  titleModifier: string;
+  content?: any;
+  textColor: string;
+  textModifier: string;
+  backgroundColor: string;
+  backgroundModifier: string;
+  links?: { text: string; url: string }[];
+  image?: any;
+  overlayColor?: string;
+  overlayOpacity?: string;
+  size?: 'small' | 'medium' | 'large';
+}
+
+const {
+  type,
+  title,
+  titleSize,
+  titleColor,
+  titleModifier,
+  content,
+  backgroundColor = 'white',
+  backgroundModifier = '',
+  textColor = 'black',
+  textModifier = '',
+  links,
+  image,
+  size,
+  overlayColor = 'black',
+  overlayOpacity = '0.5'
+} = Astro.props as CardProps;
+
+const getBgColorClass = (color: string, modifier: string) => {
+  if (color === 'transparent') return '';
+  return modifier ? `${color} ${color}-${modifier}` : color;
+};
+
+const getTextColorClass = (color: string, modifier: string) => {
+  return modifier ? `${color}-text text-${modifier}` : `${color}-text`;
+};
+
+const titleColorClass = getTextColorClass(titleColor, titleModifier);
+
+const sizeClass = size ? size : '';
+const bgColorClass = getBgColorClass(backgroundColor, backgroundModifier);
+const textColorClass = getTextColorClass(textColor, textModifier);
+
+const cardClass = [sizeClass, bgColorClass, textColorClass]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{
+  type === 'basic' && (
+    <div class={`card ${cardClass}`}>
+      <div class='card-content'>
+        <span class={`card-title ${titleColorClass} ${titleSize}`}>
+          {title}
+        </span>
+        <div class={textColorClass}>
+          <AposArea area={content} />
+        </div>
+      </div>
+      {links && links.length > 0 && (
+        <div class='card-action'>
+          {links.map((link) => (
+            <a href={link.url} class={textColorClass}>
+              {link.text}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+{
+  type === 'image' && (
+    <div class={`card ${cardClass}`}>
+      <div class='card-image'>
+        {image && <AposArea area={image} />}
+        <div
+          class='overlay'
+          style={`
+          background-color: ${overlayColor};
+          opacity: ${overlayOpacity};
+        `}
+        />
+        <span class={`card-title ${titleColorClass} ${titleSize}`}>
+          {title}
+        </span>
+      </div>
+      <div class='card-content'>
+        <div class={textColorClass}>
+          <AposArea area={content} />
+        </div>
+        {links && links.length > 0 && (
+          <div class='card-action'>
+            {links.map((link) => (
+              <a href={link.url} class={textColorClass}>
+                {link.text}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+{
+  type === 'horizontal' && (
+    <div class={`card ${cardClass} horizontal`}>
+      <div class='card-image'>{image && <AposArea area={image} />}</div>
+      <div class='card-stacked'>
+        <div class='card-content'>
+          <span class={`card-title ${titleColorClass} ${titleSize}`}>
+            {title}
+          </span>
+          <div class={textColorClass}>
+            <AposArea area={content} />
+          </div>
+        </div>
+        {links && links.length > 0 && (
+          <div class='card-action'>
+            {links.map((link) => (
+              <a href={link.url}>{link.text}</a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+{
+  type === 'reveal' && (
+    <div class={`card ${cardClass}`}>
+      <div class='card-image waves-effect waves-block waves-light activator'>
+        <AposArea
+          area={image}
+          imageOptions={{ additionalClasses: 'activator' }}
+        />
+      </div>
+      <div class='card-content'>
+        <span class={`card-title activator ${titleColorClass} ${titleSize}`}>
+          {title}
+          <i class='material-icons right'>more_vert</i>
+        </span>
+        {links &&
+          links.length > 0 &&
+          links.map((link) => (
+            <p>
+              <a href={link.url} class={textColorClass}>
+                {link.text}
+              </a>
+            </p>
+          ))}
+      </div>
+      <div class='card-reveal'>
+        <span class={`card-title ${titleColorClass}`}>
+          {title}
+          <i class='material-icons right'>close</i>
+        </span>
+        <div class={textColorClass}>
+          <AposArea className='activator' area={content} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  type === 'image-overlay' && (
+    <div class={`card ${cardClass} image-overlay`}>
+      <div class='card-image-container'>
+        {image && <AposArea area={image} />}
+        <div
+          class='overlay'
+          style={`
+          background-color: ${overlayColor};
+          opacity: ${overlayOpacity};
+        `}
+        >
+          <span
+            class={`overlay-title ${titleColorClass} ${titleSize} center-align`}
+          >
+            {title}
+          </span>
+          {content && (
+            <div class={`${textColorClass} center-align`}>
+              <AposArea area={content} />
+            </div>
+          )}
+          {links && links.length > 0 && (
+            <div class='overlay-actions'>
+              {links.map((link) => (
+                <a
+                  href={link.url}
+                  class={`${textColorClass} waves-effect waves-light btn`}
+                >
+                  {link.text}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  :global(.card),
+  :global(.card .card-content) {
+  border-radius: 10px !important;
+}
+
+  :global(.card .card-image),
+  :global(.card .card-image img),
+  :global(.card .card-image-container),
+  :global(.card .card-image-container img) {
+    border-radius: 10px 10px 0 0 !important;
+  }
+
+  .image-overlay {
+    position: relative;
+    overflow: hidden;
+    contain: layout paint;
+    transform: translateZ(0);
+    border-radius: 2px;
+  }
+
+  .card-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-image-container :global(.apos-area) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-image-container :global(img) {
+    border-radius: 2px;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    display: block;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 2px;
+  }
+
+  .overlay-title {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    font-weight: 300;
+    line-height: 1.3;
+  }
+
+  .overlay-actions {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .overlay-actions a {
+    margin: 0 0.5rem;
+  }
+</style>

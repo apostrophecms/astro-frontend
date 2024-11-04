@@ -1,0 +1,185 @@
+---
+const { aposData } = Astro.props;
+const mainNav = aposData.home?._children || [];
+const branding = aposData.global?.brandingGroup || {};
+const header = aposData.global?.headerGroup || {};
+
+const headerPosition = header.headerPosition || 'relative';
+
+function getColorClass(color, modifier = '', isText = false) {
+  if (!color) return '';
+  return color;
+}
+
+function formatNavItem(page) {
+  if (!page) return null;
+  return {
+    title: page.title || '',
+    url: page._url || '#',
+    active: page._url === aposData.page?._url,
+    children: page._children || []
+  };
+}
+
+const navItems = mainNav.map(formatNavItem).filter((item) => item !== null);
+
+const renderBranding = (type, isMobile = false) => {
+  const displayType =
+    isMobile && branding.mobileDisplayPreference !== 'same'
+      ? branding.mobileDisplayPreference
+      : type;
+
+  const textSizeClass = branding.siteTextSize || 'is-size-4';
+
+  if (displayType === 'logo') {
+    return branding.siteLogo?._urls?.max
+      ? `<img 
+          src="${branding.siteLogo._urls.max}"
+          alt="${branding.siteTitle}"
+          style="max-height: ${branding.logoMaxHeight || 40}px"
+        />`
+      : branding.siteTitle;
+  }
+
+  if (displayType === 'both') {
+    const logo = branding.siteLogo?._urls?.max
+      ? `<img 
+          src="${branding.siteLogo._urls.max}"
+          alt="${branding.siteTitle}"
+          style="max-height: ${branding.logoMaxHeight || 40}px; margin-right: 0.5rem;"
+        />`
+      : '';
+    return `${logo}<span class="${textSizeClass}">${branding.siteTitle}</span>`;
+  }
+
+  return `<span class="${textSizeClass}">${branding.siteTitle}</span>`;
+};
+
+// New helper for navbar burger visibility
+const shouldShowBurger = navItems.length > 0;
+---
+
+<header class={`header ${headerPosition === 'fixed' ? 'is-fixed-top' : ''}`}>
+  <nav 
+    class={`navbar ${getColorClass(header.headerBackgroundColor)} ${getColorClass(header.headerTextColor)} ${
+      headerPosition === 'relative' ? '' : 'is-transparent'
+    }`}
+    role="navigation" 
+    aria-label="main navigation"
+  >
+    <div class="navbar-brand">
+      <!-- Desktop/Mobile Branding (Bulma handles responsive breakpoints) -->
+      <a
+        href="/"
+        class="navbar-item brand-logo"
+        set:html={renderBranding(branding.brandingType)}
+      />
+
+      {shouldShowBurger && (
+        <a
+          role="button"
+          class={`navbar-burger ${getColorClass(header.mobileMenuColor)}`}
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navMenu"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      )}
+    </div>
+
+    {navItems.length > 0 && (
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-end">
+          {navItems.map((item) => 
+            item && (
+              <div class={`navbar-item ${item.children?.length > 0 ? 'has-dropdown is-hoverable' : ''}`}>
+                <a
+                  href={item.url}
+                  class={`${
+                    item.active ? getColorClass(header.headerActiveColor) : ''
+                  } ${getColorClass(header.headerHoverColor)}`}
+                >
+                  {item.title}
+                </a>
+
+                {item.children?.length > 0 && (
+                  <div class={`navbar-dropdown ${getColorClass(header.dropdownBackgroundColor)}`}>
+                    {item.children.map((child) =>
+                      child && (
+                        <a
+                          href={child._url || '#'}
+                          class={`navbar-item ${
+                            child._url === aposData.page?._url
+                              ? getColorClass(header.headerActiveColor)
+                              : ''
+                          } ${getColorClass(header.headerHoverColor)}`}
+                        >
+                          {child.title || ''}
+                        </a>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    )}
+  </nav>
+</header>
+
+<script>
+  // Burger menu functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    
+    $navbarBurgers.forEach(el => {
+      el.addEventListener('click', () => {
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+        
+        el.classList.toggle('is-active');
+        $target?.classList.toggle('is-active');
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Basic styles */
+  .brand-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-logo img {
+    vertical-align: middle;
+  }
+
+  /* Edit mode positioning for ApostropheCMS */
+  :global([data-apos-refreshable]) {
+    position: relative;
+
+    & .is-fixed-top {
+      top: 112px; /* Height of both admin bars combined */
+    }
+  }
+
+  /* Transitions */
+  .navbar-item {
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  /* Mobile optimizations */
+  @media screen and (max-width: 1023px) {
+    .navbar-menu {
+      position: absolute;
+      width: 100%;
+      left: 0;
+    }
+  }
+</style>

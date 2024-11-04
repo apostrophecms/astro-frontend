@@ -1,13 +1,18 @@
 ---
-const { widget } = Astro.props;
+const { widget, imageOptions } = Astro.props;
 const placeholder = widget?.aposPlaceholder;
 const src = placeholder ?
   '/images/image-widget-placeholder.jpg' :
   widget?._image[0]?.attachment?._urls['full'];
+
+const classes = ['img-widget'];
+if (imageOptions?.additionalClasses) {
+  classes.push(imageOptions.additionalClasses);
+}
 ---
 <style>
   .img-widget {
     width: 100%;
   }
 </style>
-<img class="img-widget" {src} />
+<img class={classes.join(' ')} {src} />

@@ -1,0 +1,38 @@
+// Import Materialize components
+@import "bulma";
+
+// Any global styles you want to add
+:root {
+  // Your custom CSS variables
+}
+
+body {
+  // Your global body styles
+  margin: 0;
+
+  //Fix for admin-bar overlap when editing
+    & [data-apos-refreshable] {
+      margin-top: 50px;
+    }
+
+    & .apos-admin-bar__row--utils {
+      background-color: white;
+    }
+
+    & .material-icons {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;  /* Preferred icon size */
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      -moz-osx-font-smoothing: grayscale;
+    }
+}
