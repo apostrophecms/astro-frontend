@@ -16,5 +16,8 @@
     "astro": "^4.0.0",
     "dayjs": "^1.11.10",
     "vite": "^5.0.7"
+  },
+  "devDependencies": {
+    "postcss-viewport-to-container-toggle": "^1.0.0"
   }
 }
