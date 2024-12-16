@@ -81,9 +81,6 @@ const url = widget?.video?.url;
     }
   }
   if (!customElements.get('video-widget')) {
-    console.log('Registering video-widget component');
     customElements.define('video-widget', VideoWidget);
-  } else {
-    console.log('video-widget already registered');
   }
 </script>
