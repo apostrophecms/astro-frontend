@@ -13,3 +13,11 @@ Astro.
 
 Please see the [`@apostrophecms/apostrophe-astro`](https://github.com/apostrophecms/apostrophe-astro) documentation
 for complete information about how to get started with this project.
+
+## Postcss plugin
+
+As you can see, there is a postcss config adding one plugin.
+This is a needed plugin to make the apostrophe breakpoint preview working.
+This is the feature that shows you how your site looks like on different device sizes,
+if you don't need this feature you can remove the plugin.
+
