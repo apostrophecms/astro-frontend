@@ -16,7 +16,7 @@ const pages = [];
 for (let i = 1; (i <= totalPages); i++) {
   pages.push({
     number: i,
-    current: page === currentPage,
+    current: i === currentPage,
     url: setParameter(Astro.url, 'page', i)
   });
 }
